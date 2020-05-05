@@ -15,5 +15,3 @@ models.sequelize.sync({ force: true }).then(() => {
     console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
   );
 })
-
-

@@ -4,7 +4,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
-    });
+    }, { underscored: true });
 
     return Member;
 };
