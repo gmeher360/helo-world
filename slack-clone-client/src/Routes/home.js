@@ -1,25 +1,17 @@
 import React from 'react'
-import { useQuery, gql } from '@apollo/client';
-
-const allUsersQuery = gql`
-    query{
-        allUsers{
-            username
-            id
-        }
-    }
-`
+import Register from '../components/register'
+import { Container, row, Row } from 'react-bootstrap';
 
 export default function Home() {
-    const { loading, error, data } = useQuery(allUsersQuery)
     return (
-        <div>
-            <h1>React Hello This is Home</h1>
-            <div>
-                {
-                    loading ? <h2> Loading.....</h2> : data.allUsers.map(u => <p key={u.id}>{u.username}</p>)
-                }
-            </div>
-        </div>
+        <React.Fragment>
+            <Container fluid="md" style={{ backgroundColor: '#dfe6e9' }}>
+                <Row className="justify-content-center">
+                    <Register></Register>
+                </Row>
+
+            </Container>
+        </React.Fragment>
     )
+
 }
