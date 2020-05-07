@@ -9,7 +9,6 @@ export default function Home() {
                 <Row className="justify-content-center">
                     <Register></Register>
                 </Row>
-
             </Container>
         </React.Fragment>
     )

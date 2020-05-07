@@ -3,12 +3,40 @@ export default (sequelize, DataTypes) => {
         username: {
             type: DataTypes.STRING,
             unique: true,
+            validate: {
+                isAlphanumeric: {
+                    msg: 'user name must be alpha numeric only'
+                },
+                notEmpty: {
+                    msg: 'user name field can not be empty'
+                },
+                len: {
+                    args: [4, 15],
+                    msg: "user name must be between 4 and 15 character long"
+                }
+            }
         },
         email: {
             type: DataTypes.STRING,
             unique: true,
+            validate: {
+                isEmail: {
+                    msg: 'email field must be a valid email',
+                },
+                notEmpty: {
+                    msg: 'email field can not be empty'
+                }
+            }
         },
-        password: DataTypes.STRING,
+        password: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: 'password field can not be empty',
+                }
+
+            }
+        }
     }, { underscored: true });
 
     User.associate = (models) => {
