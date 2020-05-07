@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, row, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 export default function ContainerMD({ children }) {
     return (
         <React.Fragment>

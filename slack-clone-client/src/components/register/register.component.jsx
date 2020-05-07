@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import { Container, Typography, FormControl, InputLabel, FormHelperText, Input } from '@material-ui/core';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter, Link } from 'react-router-dom';
 import './register.styles.css';

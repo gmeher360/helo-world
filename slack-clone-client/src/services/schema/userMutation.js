@@ -20,13 +20,11 @@ const LOGIN_USER_MUTATION = gql`
     mutation($email: String!, $password: String!){
         loginUser(email:$email,password:$password){
             ok
+            currentToken
+            refreshToken
             errors{
                 path
                 message
-            }
-            user{
-                id
-                username
             }
         }
     }

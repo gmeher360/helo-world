@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import { Container, Typography, FormControl, InputLabel, FormHelperText, Input } from '@material-ui/core';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter, Link } from 'react-router-dom';
 import './login.styles.css';
@@ -34,9 +34,11 @@ const Login = ({ history }) => {
         })
         setPassword('')
         console.log(response)
-        const { ok, errors } = response.data.loginUser;
+        const { ok, errors, currentToken, refreshToken } = response.data.loginUser;
         console.log(errors)
         if (ok) {
+            localStorage.setItem("token", currentToken)
+            localStorage.setItem('refreshToken', refreshToken)
             history.push('/about')
         } else {
             const err = {}
