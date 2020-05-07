@@ -3,19 +3,18 @@ import React, { useState } from 'react'
 import { gql, useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter, Link } from 'react-router-dom';
-import './register.styles.css';
-import { REGISTER_USER_MUTATION } from '../../services/schema';
+import './login.styles.css';
+import { LOGIN_USER_MUTATION } from '../../services/schema';
 
 
-const Register = ({ history }) => {
+const Login = ({ history }) => {
 
-    const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [inputError, setInputError] = useState({})
     const [buttonState, setButtonState] = useState(true)
 
-    const [registerUser, { data }] = useMutation(REGISTER_USER_MUTATION);
+    const [loginUser, { data }] = useMutation(LOGIN_USER_MUTATION);
 
     const handleClick = async (e) => {
 
@@ -26,17 +25,16 @@ const Register = ({ history }) => {
             setButtonState(true)
             return;
         }
-        console.log('registering')
-        const response = await registerUser({
+        console.log('logging in')
+        const response = await loginUser({
             variables: {
-                username: username,
                 email: email,
                 password: password
             }
         })
         setPassword('')
         console.log(response)
-        const { ok, errors } = response.data.registerUser;
+        const { ok, errors } = response.data.loginUser;
         console.log(errors)
         if (ok) {
             history.push('/about')
@@ -62,7 +60,7 @@ const Register = ({ history }) => {
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
-                        className={`register__FormControl ${inputError.email ? 'input-error' : ''}`}
+                        className={`login__FormControl ${inputError.email ? 'input-error' : ''}`}
                         as="input"
                         type="email"
                         placeholder="Enter email"
@@ -77,28 +75,10 @@ const Register = ({ history }) => {
                     </Form.Text>
                 </Form.Group>
 
-                <Form.Group controlId="formBasicUserName">
-                    <Form.Label>User Name</Form.Label>
-                    <Form.Control
-                        className={`register__FormControl ${inputError.username ? 'input-error' : ''}`}
-                        as="input"
-                        type="text"
-                        placeholder="Enter username"
-                        name="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <Form.Text className="text-danger">
-                        <ul style={{ paddingLeft: '20px' }}>
-                            {inputError.username ? inputError.username.map((err, i) => <li key={i}> {err} </li>) : null}
-                        </ul>
-                    </Form.Text>
-                </Form.Group>
-
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
-                        className={`register__FormControl ${inputError.password ? 'input-error' : null}`}
+                        className={`login__FormControl ${inputError.password ? 'input-error' : null}`}
                         type="password"
                         placeholder="Password"
                         as="input"
@@ -108,14 +88,14 @@ const Register = ({ history }) => {
                         className="p-4"
                     />
                 </Form.Group>
-                <Button className="register__FormButton" disabled={!(email && username && password && buttonState)} variant="primary" type="submit" onClick={handleClick}>
-                    Submit
+                <Button className="login__FormButton" disabled={!(email && password && buttonState)} variant="primary" type="submit" onClick={handleClick}>
+                    Sign in
                 </Button>
             </Form>
-            <p>already a user ? <span><Link to="/">Sign-in here</Link></span></p>
+            <p>new to Slack ? <span><Link to="/get-started">Sign-up here</Link></span></p>
         </div>
 
     )
 }
 
-export default withRouter(Register)
+export default withRouter(Login)

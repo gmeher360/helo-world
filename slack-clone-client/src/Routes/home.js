@@ -1,16 +1,13 @@
 import React from 'react'
-import Register from '../components/register'
+import Login from '../components/login'
 import { Container, row, Row } from 'react-bootstrap';
-
+import { Link } from 'react-router-dom';
+import { ContainerMD } from '../components/custom'
 export default function Home() {
     return (
-        <React.Fragment>
-            <Container fluid="md" style={{ backgroundColor: '#dfe6e9' }}>
-                <Row className="justify-content-center">
-                    <Register></Register>
-                </Row>
-            </Container>
-        </React.Fragment>
+        <ContainerMD>
+            <Login />
+        </ContainerMD>
     )
 
 }

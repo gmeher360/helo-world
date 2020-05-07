@@ -5,6 +5,7 @@ import {
     Route,
 } from "react-router-dom";
 import Home from './home'
+import GetStarted from './get-started'
 
 function App() {
     return (
@@ -12,6 +13,9 @@ function App() {
             <Switch>
                 <Route exact path='/' >
                     <Home />
+                </Route>
+                <Route exact path='/get-started'>
+                    <GetStarted />
                 </Route>
                 <Route exact path='/about'>
                     <h2>About Us</h2>
