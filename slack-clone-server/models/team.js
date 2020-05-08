@@ -3,6 +3,15 @@ export default (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             unique: true,
+            validate: {
+                isAlphanumeric: {
+                    msg: "Team name must be alpha numeric only"
+                },
+                len: {
+                    args: [5, 10],
+                    msg: "Team name must be 5 to 15 characters long"
+                }
+            }
         },
     }, { underscored: true });
 

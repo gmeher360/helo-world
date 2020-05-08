@@ -4,17 +4,21 @@ import jwt from 'jsonwebtoken';
 export const createTokens = async (user) => {
     const currentToken = jwt.sign(
         {
-            user: user.id
+            user: {
+                id: user.id
+            }
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: '1h'
+            expiresIn: '15s'
         }
     )
 
     const refreshToken = jwt.sign(
         {
-            user: user.id
+            user: {
+                id: user.id
+            }
         },
         user.password + process.env.ACCESS_REFRESH_TOKEN_SECRET,
         {
@@ -26,7 +30,7 @@ export const createTokens = async (user) => {
 }
 
 export const refreshTokens = async (currentToken, refreshToken, models) => {
-    let userId = -1;
+    let userId = 0;
     try {
         const { user: { id } } = jwt.decode(refreshToken)
         userId = id;
@@ -36,14 +40,13 @@ export const refreshTokens = async (currentToken, refreshToken, models) => {
     if (!userId) {
         return {}  // user does not exists
     }
-    const user = await models.User.findOne({ where: { id: userId } })
+    const user = await models.User.findOne({ where: { id: userId }, raw: true })
 
     try {
-        jwt.verify(refreshToken, process.env.ACCESS_REFRESH_TOKEN_SECRET + user.password)
+        jwt.verify(refreshToken, user.password + process.env.ACCESS_REFRESH_TOKEN_SECRET)
     } catch (err) {
         return {}
     }
-
     const [newCurrentToken, newRefreshToken] = await createTokens(user)
     return {
         currentToken: newCurrentToken,
@@ -52,14 +55,13 @@ export const refreshTokens = async (currentToken, refreshToken, models) => {
     }
 }
 
-
 export const tryLogin = async (email, password, models) => {
     const user = await models.User.findOne({ where: { email }, raw: true })
     if (!user) {
         return {
             ok: false,
             errors: [{
-                path: email,
+                path: "email",
                 message: 'Email does not exists'
             }]
         }
@@ -69,7 +71,7 @@ export const tryLogin = async (email, password, models) => {
         return {
             ok: false,
             errors: [{
-                path: password,
+                path: "password",
                 message: 'invalid password'
             }]
         }

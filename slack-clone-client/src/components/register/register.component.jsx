@@ -39,7 +39,7 @@ const Register = ({ history }) => {
         const { ok, errors } = response.data.registerUser;
         console.log(errors)
         if (ok) {
-            history.push('/about')
+            history.push('/')
         } else {
             const err = {}
             errors.forEach(({ path, message }) => {
@@ -107,12 +107,17 @@ const Register = ({ history }) => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="p-4"
                     />
+                    <Form.Text className="text-danger">
+                        <ul style={{ paddingLeft: '20px' }}>
+                            {inputError.password ? inputError.password.map((err, i) => <li key={i}> {err} </li>) : null}
+                        </ul>
+                    </Form.Text>
                 </Form.Group>
                 <Button className="register__FormButton" disabled={!(email && username && password && buttonState)} variant="primary" type="submit" onClick={handleClick}>
                     Submit
                 </Button>
             </Form>
-            <p>already a user ? <span><Link to="/">Sign-in here</Link></span></p>
+            <p>already a user ? <span><Link to="/login">Sign-in here</Link></span></p>
         </div>
 
     )

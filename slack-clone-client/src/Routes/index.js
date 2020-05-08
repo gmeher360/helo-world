@@ -4,8 +4,10 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import Home from './home'
-import GetStarted from './get-started'
+import Home from './home';
+import Login from './login';
+import GetStarted from './get-started';
+import Team from './team';
 
 function App() {
     return (
@@ -17,8 +19,11 @@ function App() {
                 <Route exact path='/get-started'>
                     <GetStarted />
                 </Route>
-                <Route exact path='/about'>
-                    <h2>About Us</h2>
+                <Route exact path='/login'>
+                    <Login />
+                </Route>
+                <Route exact path='/team'>
+                    <Team />
                 </Route>
             </Switch>
         </Router>
