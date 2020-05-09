@@ -3,11 +3,12 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
 import { withRouter, Link } from 'react-router-dom';
-import './team.styles.css';
+import './createTeam.styles.css';
 import { CREATE_TEAM_MUTATION } from '../../services/schema';
+import ERROR from '../../constants/errors'
 
 
-const Team = ({ history }) => {
+const CreateTeam = ({ history }) => {
 
     const [team, setTeam] = useState('')
     const [inputError, setInputError] = useState({})
@@ -35,8 +36,14 @@ const Team = ({ history }) => {
         console.log(errors)
         if (ok) {
             history.push('/')
-        } else if (!errors) {
+        }
+        if (errors) {
+            console.log(errors)
             const err = {}
+            if (errors[0].path == 'auth') {
+                alert(ERROR.AUTH_ERROR);
+                history.push('/login')
+            }
             errors.forEach(({ path, message }) => {
                 if (err[path] == null) {
                     err[path] = []
@@ -73,7 +80,7 @@ const Team = ({ history }) => {
                 </Form.Group>
 
                 <Button className="team__FormButton" disabled={!(team && buttonState)} variant="primary" type="submit" onClick={handleClick}>
-                    Sign in
+                    Create Team
                 </Button>
             </Form>
             {/* <p>new to Slack ? <span><Link to="/get-started">Sign-up here</Link></span></p> */}
@@ -82,4 +89,4 @@ const Team = ({ history }) => {
     )
 }
 
-export default withRouter(Team)
+export default withRouter(CreateTeam)

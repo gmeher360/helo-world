@@ -29,5 +29,11 @@ const LOGIN_USER_MUTATION = gql`
         }
     }
 `
-
-export { REGISTER_USER_MUTATION, LOGIN_USER_MUTATION };
+const USER_AUTHENTICATION_QUERY = gql`
+    query{
+        authenticateUser{
+            ok
+        }
+    }
+`
+export { REGISTER_USER_MUTATION, LOGIN_USER_MUTATION, USER_AUTHENTICATION_QUERY };

@@ -12,6 +12,7 @@ export default gql`
     type Query{
         getUser(id:Int!): User!
         allUsers: [User!]!
+        authenticateUser: authenticateResponse!
     }
 
     type registerResponse{
@@ -25,6 +26,9 @@ export default gql`
         currentToken: String
         refreshToken: String
         errors: [Error]
+    }
+    type authenticateResponse{
+        ok: Boolean!
     }
 
     type Mutation{

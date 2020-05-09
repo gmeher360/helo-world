@@ -1,3 +1,3 @@
-import Team from './team.component'
+import CreateTeam from './createTeam.component'
 
-export default Team;
+export default CreateTeam;

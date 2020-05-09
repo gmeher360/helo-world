@@ -39,6 +39,7 @@ const Login = ({ history }) => {
         if (ok) {
             localStorage.setItem("token", currentToken)
             localStorage.setItem('refreshToken', refreshToken)
+            localStorage.setItem('isLoggedIn', 1)
             history.push('/')
         } else {
             const err = {}

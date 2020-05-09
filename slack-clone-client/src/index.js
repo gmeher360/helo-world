@@ -21,17 +21,6 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-// const retrieveFreshTokens = new ApolloLink((operation, forward) => {
-//   if (!operation.response)
-//     return;
-//   const { response: { headers } } = operation;
-//   const token = headers.get('x-token') && null;
-//   const refreshToken = headers.get('x-refresh-token') && null;
-//   token && localStorage.setItem('token', token);
-//   refreshToken && localStorage.setItem('refreshToken', 'refreshToken');
-//   forward(operation);
-// })
-
 
 const client = new ApolloClient({
   link: from([
@@ -41,22 +30,6 @@ const client = new ApolloClient({
   ]),
   cache: new InMemoryCache()
 });
-
-
-
-// client
-//   .query({
-//     query: gql`
-//       query {
-//         allUsers{
-//           username
-//           email
-//         }
-//       }
-//     `
-//   })
-//   .then(result => console.log(result));
-
 
 ReactDOM.render(
   <ApolloProvider client={client}>

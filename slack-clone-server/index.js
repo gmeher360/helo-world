@@ -19,8 +19,8 @@ const addUser = async (req, res, next) => {
 
   if (token) {
     try {
-      const { user2 } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      req.user = user2
+      const { user } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      req.user = user
     } catch (err) {
       const { currentToken, refreshToken, user } = await refreshTokens(token, reToken, models)
       req.user = user;

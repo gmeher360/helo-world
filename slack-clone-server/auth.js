@@ -10,7 +10,7 @@ export const createTokens = async (user) => {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: '15s'
+            expiresIn: '1h'
         }
     )
 

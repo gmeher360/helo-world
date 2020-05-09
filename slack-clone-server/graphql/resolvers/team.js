@@ -1,11 +1,12 @@
 import { formatErrors } from '../../utils'
+import { requiresAuth } from '../../permissions';
 
 export default {
     Mutation: {
-        createTeam: async (parent, args, { models, user }) => {
+        createTeam: requiresAuth(async (parent, args, context) => {
             // passing a a random user from context as we have not setup JWT and user authentication yet
             try {
-                await models.Team.create({ ...args, owner: user.id });
+                await context.models.Team.create({ ...args, owner: context.user.id });
                 return {
                     ok: true,
                 }
@@ -15,6 +16,6 @@ export default {
                     errors: formatErrors(error)
                 }
             }
-        }
+        })
     }
 };
