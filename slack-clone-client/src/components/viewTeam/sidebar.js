@@ -12,10 +12,13 @@ export default function Sidebar() {
     let { teamId, channelId } = useParams();
     const { data: teamsData, loading: teamsLoading, error: teamsError } = useQuery(GET_ALL_TEAMS)
     const { data: channelsData, loading: channelsLoading, error: channelsError } = useQuery(GET_ALL_CHANNELS_BY_TEAM_ID, { variables: { teamId: parseInt(teamId) } })
+    const teamsArray = teamsData && teamsData.getAllTeams.teams
+    const channelsArray = channelsData && channelsData.getAllChannelsByTeamId.channels
+    const currentTeam = teamsArray && teamsArray.find(team => team.id == teamId)
     return (
         <StyledSidebar>
-            <TeamSidebar teams={teamsData && teamsData.getAllTeams.teams} />
-            <ChannelSidebar channels={channelsData && channelsData.getAllChannelsByTeamId.channels} directMessages={directMessages} />
+            <TeamSidebar teams={teamsArray} />
+            <ChannelSidebar channels={channelsArray} directMessages={directMessages} currentTeam={currentTeam} />
         </StyledSidebar>
     )
 }

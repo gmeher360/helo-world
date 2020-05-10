@@ -5,7 +5,8 @@ export const createTokens = async (user) => {
     const currentToken = jwt.sign(
         {
             user: {
-                id: user.id
+                id: user.id,
+                username: user.name
             }
         },
         process.env.ACCESS_TOKEN_SECRET,

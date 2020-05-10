@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom';
-export default function TeamSidebar({ teams }) {
+const TeamSidebar = ({ teams }) => {
     const spreadTeams = () => {
         if (!teams || teams.length == 0) {
             return null;
@@ -66,3 +66,5 @@ const StyledChannelInitial = styled.div`
         }
     }
 `
+
+export default React.memo(TeamSidebar);

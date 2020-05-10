@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-export default function ChannelSidebar({ channels, directMessages }) {
+export default function ChannelSidebar({ channels, directMessages, currentTeam }) {
     const spreadChannels = () => {
         if (!channels || channels.length == 0) {
             return null;
@@ -25,6 +25,8 @@ export default function ChannelSidebar({ channels, directMessages }) {
 
     return (
         <StyledChannelSidebar>
+            <TeamNameWrapper>{currentTeam && currentTeam.name}</TeamNameWrapper>
+            <UserNameWrapper></UserNameWrapper>
             <h6 className="mt-4 pl-1">Channels</h6>
             <ListWrapper>
                 {spreadChannels()}
@@ -38,6 +40,19 @@ export default function ChannelSidebar({ channels, directMessages }) {
     )
 }
 
+
+const TeamNameWrapper = styled.h5`
+    padding-left:5px;
+    font-weight:600;
+    font-family:montserrat;
+    margin-top: 30px;
+    color: rgba(255,255,255,0.97)
+`
+const UserNameWrapper = styled.p`
+    color: rgba(255,255,255,0.6);
+    font-size:14px;
+    font-weight:400;
+`
 
 const StyledChannelSidebar = styled.div`
     grid-column: 1/2;
@@ -54,7 +69,7 @@ const ListItemWrapper = styled.li`
     padding-left: 10px;
     font-weight:500;
     font-size:14px;
-    color: rgba(256,256,256,0.95);
+    color: rgba(0,0,0,0.5);
     cursor:pointer;
     &:hover {
         background-color:rgba(0,0,0,0.3)
