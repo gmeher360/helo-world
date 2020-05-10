@@ -53,7 +53,7 @@ function App() {
                 <ProtectedRoute exact path='/create-team'>
                     <CreateTeam />
                 </ProtectedRoute>
-                <ProtectedRoute exact path='/view-team'>
+                <ProtectedRoute exact path='/view-team/:teamId?/:channelId?'>
                     <ViewTeam />
                 </ProtectedRoute>
             </Switch>

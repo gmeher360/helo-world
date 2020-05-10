@@ -39,6 +39,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => ({ models, user: req.user }) //user id from jwt
+  // context: ({ req }) => ({ models, user: { id: 5 } }) //mock user to test in graphql playground
 });
 
 server.applyMiddleware({ app });

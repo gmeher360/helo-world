@@ -5,25 +5,34 @@ export default function ChannelSidebar({ channels, directMessages }) {
         if (!channels || channels.length == 0) {
             return null;
         }
-        return channels.map(c => <li onClick={() => console.log(c.id)}># {c.name}</li>)
+        return channels.map(c => <ListItemWrapper onClick={() => console.log(c.id)}># {c.name}</ListItemWrapper>)
     }
     const spreadDirectMessages = () => {
         if (!directMessages || directMessages.length == 0) {
             return null;
         }
-        return directMessages.map(dm => <li onClick={() => console.log(dm.id)}>{dm.username}</li>)
+        return directMessages.map(dm =>
+            <ListItemWrapper onClick={() => console.log(dm.id)}>
+                <Bubble>
+                    {
+                        dm.online ? <Green>● </Green> : '○ '
+                    }
+                </Bubble>
+
+                {dm.username}
+            </ListItemWrapper>)
     }
 
     return (
         <StyledChannelSidebar>
-            <h5 className="mt-4">Channels</h5>
-            <ul>
+            <h6 className="mt-4 pl-1">Channels</h6>
+            <ListWrapper>
                 {spreadChannels()}
-            </ul>
-            <h5 className="mt-4">Direct Messages</h5>
-            <ul>
+            </ListWrapper>
+            <h6 className="mt-4 pl-1">Direct Messages</h6>
+            <ListWrapper>
                 {spreadDirectMessages()}
-            </ul>
+            </ListWrapper>
 
         </StyledChannelSidebar>
     )
@@ -34,4 +43,26 @@ const StyledChannelSidebar = styled.div`
     grid-column: 1/2;
     grid-row: 1/17;
     background-color: #428D9E;
+    width: 100%;
+`
+
+const ListWrapper = styled.ul`
+    list-style-type: none;
+    width: 100%;
+`
+const ListItemWrapper = styled.li`
+    padding-left: 10px;
+    font-weight:500;
+    font-size:14px;
+    color: rgba(256,256,256,0.95);
+    cursor:pointer;
+    &:hover {
+        background-color:rgba(0,0,0,0.3)
+    }
+`
+const Bubble = styled.span`
+    font-size: 16px;
+`
+const Green = styled.span`
+    color:  #186322;
 `

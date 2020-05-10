@@ -10,7 +10,7 @@ import ERROR from '../../constants/errors'
 
 const CreateTeam = ({ history }) => {
 
-    const [team, setTeam] = useState('')
+    const [teamName, setTeamName] = useState('')
     const [inputError, setInputError] = useState({})
     const [buttonState, setButtonState] = useState(true)
 
@@ -28,14 +28,14 @@ const CreateTeam = ({ history }) => {
         console.log('creating Team')
         const response = await createTeam({
             variables: {
-                name: team,
+                name: teamName,
             }
         })
         console.log(response)
-        const { ok, errors } = response.data.createTeam;
+        const { ok, errors, team } = response.data.createTeam;
         console.log(errors)
-        if (ok) {
-            history.push('/')
+        if (ok && team) {
+            history.push(`/view-team/${team.id}`)
         }
         if (errors) {
             console.log(errors)
@@ -68,9 +68,9 @@ const CreateTeam = ({ history }) => {
                         as="input"
                         type="text"
                         placeholder="Enter team name"
-                        name="team"
-                        value={team}
-                        onChange={(e) => setTeam(e.target.value)}
+                        name="team-name"
+                        value={teamName}
+                        onChange={(e) => setTeamName(e.target.value)}
                     />
                     <Form.Text className="text-danger">
                         <ul style={{ paddingLeft: '20px' }}>
@@ -79,7 +79,7 @@ const CreateTeam = ({ history }) => {
                     </Form.Text>
                 </Form.Group>
 
-                <Button className="team__FormButton" disabled={!(team && buttonState)} variant="primary" type="submit" onClick={handleClick}>
+                <Button className="team__FormButton" disabled={!(teamName && buttonState)} variant="primary" type="submit" onClick={handleClick}>
                     Create Team
                 </Button>
             </Form>

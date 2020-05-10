@@ -7,8 +7,15 @@ export default gql`
         messages: [Message!]!,   
         users: [User!]!
     }
-
+    type getAllChannelsByTeamIdResponse{
+        ok: Boolean!,
+        errors: [Error],
+        channels: [Channel]
+    }
     type Mutation{
         createChannel(name: String!, public: Boolean=false, teamId: Int!): Boolean!
+    }
+    type Query{
+        getAllChannelsByTeamId(teamId: Int!) : getAllChannelsByTeamIdResponse!
     }
 `

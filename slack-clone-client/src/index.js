@@ -4,6 +4,7 @@ import * as serviceWorker from './serviceWorker';
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink, ApolloLink, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import Routes from './Routes';
+import './index.css';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -20,13 +21,27 @@ const authLink = setContext((_, { headers }) => {
     }
   }
 });
-
+const afterWare = new ApolloLink((operation, forward) => {
+  const { headers } = operation.getContext();
+  if (headers) {
+    const token = headers.get('x-token');
+    const refreshToken = headers.get('x-refresh-token');
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+    if (refreshToken) {
+      localStorage.setItem('refreshToken', refreshToken);
+    }
+  }
+  return forward(operation)
+});
 
 const client = new ApolloClient({
   link: from([
     // retrieveFreshTokens,
+    afterWare,
     authLink,
-    httpLink
+    httpLink,
   ]),
   cache: new InMemoryCache()
 });

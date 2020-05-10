@@ -8,6 +8,26 @@ export const CREATE_TEAM_MUTATION = gql`
                 path
                 message
             }
+            team{
+                id
+                name
+            }
+        }
+    }
+`
+
+export const GET_ALL_TEAMS = gql`
+    query{
+        getAllTeams{
+            ok
+            teams{
+                id
+                name
+            }
+            errors{
+                path
+                message
+            }
         }
     }
 `
