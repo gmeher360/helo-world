@@ -21,20 +21,29 @@ const authLink = setContext((_, { headers }) => {
     }
   }
 });
+
 const afterWare = new ApolloLink((operation, forward) => {
-  const { headers } = operation.getContext();
-  if (headers) {
-    const token = headers.get('x-token');
-    const refreshToken = headers.get('x-refresh-token');
-    if (token) {
-      localStorage.setItem('token', token);
+  return forward(operation).map(response => {
+    const context = operation.getContext()
+    const {
+      response: { headers }
+    } = context
+
+    if (headers) {
+      const token = headers.get('x-token')
+      const refreshToken = headers.get('x-refresh-token')
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+      }
+
     }
-    if (refreshToken) {
-      localStorage.setItem('refreshToken', refreshToken);
-    }
-  }
-  return forward(operation)
-});
+
+    return response
+  })
+})
 
 const client = new ApolloClient({
   link: from([
@@ -51,9 +60,9 @@ ReactDOM.render(
     <Routes />
   </ApolloProvider>,
   document.getElementById('root')
-);
+)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://bit.ly/CRA-PWA
+  // serviceWorker.unregister()

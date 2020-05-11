@@ -12,8 +12,13 @@ export default gql`
         errors: [Error],
         channels: [Channel]
     }
+    type createChannelResponse{
+        ok: Boolean!
+        errors: [Error]
+        channel: Channel
+    }
     type Mutation{
-        createChannel(name: String!, public: Boolean=false, teamId: Int!): Boolean!
+        createChannel(name: String!, public: Boolean=false, teamId: Int!): createChannelResponse!
     }
     type Query{
         getAllChannelsByTeamId(teamId: Int!) : getAllChannelsByTeamIdResponse!

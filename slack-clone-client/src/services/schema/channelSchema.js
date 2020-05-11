@@ -16,3 +16,18 @@ export const GET_ALL_CHANNELS_BY_TEAM_ID = gql`
         }
     }
 `
+export const CREATE_CHANNEL = gql`
+    mutation($teamId: Int!,$name: String!,){
+        createChannel(teamId: $teamId, name: $name){
+            ok
+            errors{
+                path
+                message
+            }
+            channel{
+                id,
+                name
+            }
+        }
+    }
+`
