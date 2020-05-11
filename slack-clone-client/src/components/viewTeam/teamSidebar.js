@@ -6,7 +6,13 @@ const TeamSidebar = ({ teams }) => {
         if (!teams || teams.length == 0) {
             return null;
         }
-        return teams.map(t => <StyledChannelInitial><Link to={`/view-team/${t.id}`}>{t.name[0].toUpperCase()}</Link></StyledChannelInitial>)
+        return teams.map(t => (
+            <Link to={`/view-team/${t.id}`}>
+                <StyledTeamInitial>
+                    {t.name[0].toUpperCase()}
+                </StyledTeamInitial>
+            </Link>
+        ))
     }
 
     return (
@@ -24,8 +30,11 @@ const TeamSidebar = ({ teams }) => {
 const StyledTeamSidebar = styled.div`
     flex-basis: 25%;
     background-color: #18343A;
+    a{
+        &:hover {text-decoration: none}
+    }
 `
-const StyledChannelInitial = styled.div`
+const StyledTeamInitial = styled.div`
     width:40px;
     height:40px;
     margin: 15px auto;
@@ -57,13 +66,6 @@ const StyledChannelInitial = styled.div`
     }
     &:active{
         transform: scale(0.95);
-    }
-    a{
-        color: #fff;
-        &:hover{
-            color: #fff;
-            text-decoration: none;
-        }
     }
 `
 

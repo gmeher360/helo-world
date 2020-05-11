@@ -41,6 +41,7 @@ const Login = ({ history }) => {
             localStorage.setItem('refreshToken', refreshToken)
             localStorage.setItem('isLoggedIn', 1)
             history.push('/')
+            return;
         } else {
             const err = {}
             errors.forEach(({ path, message }) => {

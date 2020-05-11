@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 // import { Container, Typography, FormControl, InputLabel, FormHelperText, Input } from '@material-ui/core';
 import { useMutation } from '@apollo/client';
 import { Form, Button } from 'react-bootstrap';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, Redirect, useHistory } from 'react-router-dom';
 import './createTeam.styles.css';
-import { CREATE_TEAM_MUTATION } from '../../services/schema';
+import { CREATE_TEAM_MUTATION, GET_ALL_TEAMS } from '../../services/schema';
 import ERROR from '../../constants/errors'
 
 
-const CreateTeam = ({ history }) => {
-
+const CreateTeam = () => {
+    const history = useHistory();
     const [teamName, setTeamName] = useState('')
     const [inputError, setInputError] = useState({})
     const [buttonState, setButtonState] = useState(true)
@@ -29,15 +29,35 @@ const CreateTeam = ({ history }) => {
         const response = await createTeam({
             variables: {
                 name: teamName,
+            },
+            update: (cache, { data: { createTeam } }) => {
+                const { ok, team } = createTeam;
+                if (!ok) {
+                    return
+                }
+                const data = cache.readQuery({ query: GET_ALL_TEAMS });
+                // data.items = [...data.items, addItem];
+                cache.writeQuery({
+                    query: GET_ALL_TEAMS,
+                    data: {
+                        ...data,
+                        getAllTeams: {
+                            ...data.getAllTeams,
+                            teams: [...data.getAllTeams.teams, team]
+                        }
+                    }
+                })
             }
         })
         console.log(response)
         const { ok, errors, team } = response.data.createTeam;
         console.log(errors)
         if (ok && team) {
+            console.log(team.id);
+            // history.replace(`/get-started`)
             history.push(`/view-team/${team.id}`)
-        }
-        if (errors) {
+            console.log("ho gya");
+        } else {
             console.log(errors)
             const err = {}
             if (errors[0].path == 'auth') {
@@ -52,9 +72,9 @@ const CreateTeam = ({ history }) => {
             });
 
             setInputError(err)
-
+            setButtonState(true)
         }
-        setButtonState(true)
+
     }
 
     return (
@@ -89,4 +109,4 @@ const CreateTeam = ({ history }) => {
     )
 }
 
-export default withRouter(CreateTeam)
+export default CreateTeam

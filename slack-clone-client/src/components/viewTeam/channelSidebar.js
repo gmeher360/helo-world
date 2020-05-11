@@ -1,14 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button } from 'react-bootstrap';
-import CreateChannelModal from '../custom/createChannel'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { CreateMemberModal, CreateChannelModal } from '../custom';
+
+
 export default function ChannelSidebar({ channels, directMessages, currentTeam }) {
+    const { teamId } = useParams();
     const spreadChannels = () => {
         if (!channels || channels.length == 0) {
             return null;
         }
-        return channels.map(c => <ListItemWrapper onClick={() => console.log(c.id)}><Link to={`/view-team/${currentTeam.id}/${c.id}`}># {c.name}</Link></ListItemWrapper>)
+        return channels.map(c => (
+            <Link to={`/view-team/${teamId}/${c.id}`}><ListItemWrapper># {c.name}</ListItemWrapper></Link>
+        ))
     }
     const spreadDirectMessages = () => {
         if (!directMessages || directMessages.length == 0) {
@@ -30,14 +35,12 @@ export default function ChannelSidebar({ channels, directMessages, currentTeam }
         <StyledChannelSidebar>
             <TeamNameWrapper>{currentTeam && currentTeam.name}</TeamNameWrapper>
             <UserNameWrapper></UserNameWrapper>
-            <h6 className="mt-4 pl-1">Channels<button onClick={() => setCreateChannelModalShow(true)} > add</button></h6>
-            <>
-                <CreateChannelModal
-                    show={createChannelModalShow}
-                    onHide={() => setCreateChannelModalShow(false)}
-                    currentTeam={currentTeam}
-                />
-            </>
+            <h6 className="mt-4 pl-1">
+                Channels
+                <button onClick={() => setCreateChannelModalShow(true)} >
+                    add
+                </button>
+            </h6>
             <ListWrapper>
                 {spreadChannels()}
             </ListWrapper>
@@ -45,6 +48,17 @@ export default function ChannelSidebar({ channels, directMessages, currentTeam }
             <ListWrapper>
                 {spreadDirectMessages()}
             </ListWrapper>
+
+            <CreateChannelModal
+                show={createChannelModalShow}
+                onHide={() => setCreateChannelModalShow(false)}
+                currentTeam={currentTeam}
+            />
+            <CreateMemberModal
+                show={createChannelModalShow}
+                onHide={() => setCreateChannelModalShow(false)}
+                currentTeam={currentTeam}
+            />
 
         </StyledChannelSidebar>
     )
@@ -74,15 +88,19 @@ const StyledChannelSidebar = styled.div`
 const ListWrapper = styled.ul`
     list-style-type: none;
     width: 100%;
+    a{
+        width: 100%;
+        &:hover{text-decoration:none}
+        color: rgba(0,0,0,0.7);
+    }
 `
 const ListItemWrapper = styled.li`
     padding-left: 10px;
     font-weight:500;
     font-size:14px;
-    color: rgba(0,0,0,0.5);
     cursor:pointer;
-    &:hover {
-        background-color:rgba(0,0,0,0.3)
+    &:hover{
+        background-color:#18343a59
     }
 `
 const Bubble = styled.span`

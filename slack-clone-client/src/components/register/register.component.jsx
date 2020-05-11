@@ -40,6 +40,7 @@ const Register = ({ history }) => {
         console.log(errors)
         if (ok) {
             history.push('/')
+            return
         } else {
             const err = {}
             errors.forEach(({ path, message }) => {

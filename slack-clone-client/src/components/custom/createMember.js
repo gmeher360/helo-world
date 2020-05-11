@@ -4,7 +4,7 @@ import { CREATE_CHANNEL, GET_ALL_CHANNELS_BY_TEAM_ID } from '../../services/sche
 import { useMutation } from '@apollo/client';
 import { withRouter } from 'react-router-dom';
 
-function CreateChannelModal({ currentTeam, history, ...props }) {
+function CreateMemberModal({ currentTeam, history, ...props }) {
     const [createChannel, { data }] = useMutation(CREATE_CHANNEL);
     const [channelName, setChannelName] = useState('')
     const [inputError, setInputError] = useState({})
@@ -122,4 +122,4 @@ function CreateChannelModal({ currentTeam, history, ...props }) {
     );
 }
 
-export default withRouter(CreateChannelModal)
+export default withRouter(CreateMemberModal)

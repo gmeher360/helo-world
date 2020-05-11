@@ -4,4 +4,8 @@ export default gql`
         path: String!,
         message: String!,
     }
+    type VoidResponse{
+        ok: Boolean!,
+        errors: [Error!]
+    }
 `

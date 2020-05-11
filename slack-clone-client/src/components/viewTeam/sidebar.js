@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import TeamSidebar from './teamSidebar'
 import ChannelSidebar from './channelSidebar'
 import { useQuery } from '@apollo/client'
 import { GET_ALL_TEAMS, GET_ALL_CHANNELS_BY_TEAM_ID } from '../../services/schema'
-import { useParams } from 'react-router-dom'
+import { useParams, withRouter, useHistory, Redirect } from 'react-router-dom'
 
 const directMessages = [{ id: 1, username: "shyam Meher", online: true }, { id: 2, username: "zack dorsey", online: true }, { id: 5, username: "Joseph Varghesse", online: false }]
-export default function Sidebar() {
-
-    let { teamId, channelId } = useParams();
-    const { data: teamsData, loading: teamsLoading, error: teamsError } = useQuery(GET_ALL_TEAMS)
+function Sidebar({ teamsArray }) {
+    const history = useHistory();
+    const { teamId, channelId } = useParams();
     const { data: channelsData, loading: channelsLoading, error: channelsError } = useQuery(GET_ALL_CHANNELS_BY_TEAM_ID, { variables: { teamId: parseInt(teamId) } })
-    const teamsArray = teamsData && teamsData.getAllTeams.teams
     const channelsArray = channelsData && channelsData.getAllChannelsByTeamId.channels
     const currentTeam = teamsArray && teamsArray.find(team => team.id == teamId)
+    // useEffect(() => {
+    //     if (!teamId && teamsArray && teamsArray.length !== 0) {
+    //         history.push(`/view-team/${teamsArray[0].id}`)
+    //         return
+    //     }
+    // }, [teamsArray, teamId])
     return (
         <StyledSidebar>
             <TeamSidebar teams={teamsArray} />
@@ -30,3 +34,5 @@ const StyledSidebar = styled.div`
     display: flex;
     flex-direction: row;
 `
+
+export default Sidebar;

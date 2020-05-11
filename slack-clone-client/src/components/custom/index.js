@@ -1,3 +1,4 @@
 import ContainerMD from './containerMD';
-
-export { ContainerMD };
+import CreateMemberModal from './createMember'
+import CreateChannelModal from './createMember'
+export { ContainerMD, CreateMemberModal, CreateChannelModal };
