@@ -35,18 +35,23 @@ const CreateTeam = () => {
                 if (!ok) {
                     return
                 }
-                const data = cache.readQuery({ query: GET_ALL_TEAMS });
-                // data.items = [...data.items, addItem];
-                cache.writeQuery({
-                    query: GET_ALL_TEAMS,
-                    data: {
-                        ...data,
-                        getAllTeams: {
-                            ...data.getAllTeams,
-                            teams: [...data.getAllTeams.teams, team]
+                try {
+                    const data = cache.readQuery({ query: GET_ALL_TEAMS });
+                    console.log(data)
+                    cache.writeQuery({
+                        query: GET_ALL_TEAMS,
+                        data: {
+                            ...data,
+                            getAllTeams: {
+                                ...data.getAllTeams,
+                                teams: [...data.getAllTeams.teams, team]
+                            }
                         }
-                    }
-                })
+                    })
+                } catch (error) {
+                    console.log(error);
+                    return
+                }
             }
         })
         console.log(response)

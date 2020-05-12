@@ -1,11 +1,4 @@
-import { REGISTER_USER_MUTATION, LOGIN_USER_MUTATION } from './userSchema';
-import { CREATE_TEAM_MUTATION, GET_ALL_TEAMS } from './teamSchema'
-import { GET_ALL_CHANNELS_BY_TEAM_ID, CREATE_CHANNEL } from './channelSchema';
-export {
-    REGISTER_USER_MUTATION,
-    LOGIN_USER_MUTATION,
-    CREATE_TEAM_MUTATION,
-    GET_ALL_CHANNELS_BY_TEAM_ID,
-    CREATE_CHANNEL,
-    GET_ALL_TEAMS,
-};
+export * from './userSchema';
+export * from './teamSchema';
+export * from './channelSchema'
+export * from './memberSchema';

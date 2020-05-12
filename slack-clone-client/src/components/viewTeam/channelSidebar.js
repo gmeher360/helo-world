@@ -31,6 +31,7 @@ export default function ChannelSidebar({ channels, directMessages, currentTeam }
             </ListItemWrapper>)
     }
     const [createChannelModalShow, setCreateChannelModalShow] = React.useState(false);
+    const [createMemberModalShow, setCreateMemberModalShow] = React.useState(false);
     return (
         <StyledChannelSidebar>
             <TeamNameWrapper>{currentTeam && currentTeam.name}</TeamNameWrapper>
@@ -48,15 +49,20 @@ export default function ChannelSidebar({ channels, directMessages, currentTeam }
             <ListWrapper>
                 {spreadDirectMessages()}
             </ListWrapper>
-
+            <h6 className="mt-4 pl-1">
+                Members
+                <button onClick={() => setCreateMemberModalShow(true)} >
+                    add
+                </button>
+            </h6>
             <CreateChannelModal
                 show={createChannelModalShow}
                 onHide={() => setCreateChannelModalShow(false)}
                 currentTeam={currentTeam}
             />
             <CreateMemberModal
-                show={createChannelModalShow}
-                onHide={() => setCreateChannelModalShow(false)}
+                show={createMemberModalShow}
+                onHide={() => setCreateMemberModalShow(false)}
                 currentTeam={currentTeam}
             />
 
