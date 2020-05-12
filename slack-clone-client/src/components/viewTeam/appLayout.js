@@ -4,11 +4,11 @@ import Footer from './footer'
 import Sidebar from './sidebar'
 import Message from './message'
 import Header from './header'
-export default function AppLayout({ teamsArray }) {
+export default function AppLayout({ teamsArray, currentTeam }) {
     return (
         <StyledHeader>
             <Header />
-            <Sidebar teamsArray={teamsArray} />
+            <Sidebar teamsArray={teamsArray} currentTeam={currentTeam} />
             <Message />
             <Footer />
         </StyledHeader>

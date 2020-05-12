@@ -7,18 +7,11 @@ import { GET_ALL_TEAMS, GET_ALL_CHANNELS_BY_TEAM_ID } from '../../services/schem
 import { useParams, withRouter, useHistory, Redirect } from 'react-router-dom'
 
 const directMessages = [{ id: 1, username: "shyam Meher", online: true }, { id: 2, username: "zack dorsey", online: true }, { id: 5, username: "Joseph Varghesse", online: false }]
-function Sidebar({ teamsArray }) {
+function Sidebar({ teamsArray, currentTeam }) {
     const history = useHistory();
     const { teamId, channelId } = useParams();
     const { data: channelsData, loading: channelsLoading, error: channelsError } = useQuery(GET_ALL_CHANNELS_BY_TEAM_ID, { variables: { teamId: parseInt(teamId) } })
     const channelsArray = channelsData && channelsData.getAllChannelsByTeamId.channels
-    const currentTeam = teamsArray && teamsArray.find(team => team.id == teamId)
-    useEffect(() => {
-        if (!teamId && teamsArray && teamsArray.length !== 0) {
-            history.push(`/view-team/${teamsArray[0].id}`)
-            return
-        }
-    }, [teamsArray, teamId])
     return (
         <StyledSidebar>
             <TeamSidebar teams={teamsArray} />

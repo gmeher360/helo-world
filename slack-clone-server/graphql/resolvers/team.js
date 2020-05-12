@@ -17,19 +17,44 @@ export default {
                     errors: formatErrors(error)
                 }
             }
-        })
-    },
-    Mutation: {
-        createTeam: requiresAuth(async (parent, args, context) => {
-            // passing a a random user from context as we have not setup JWT and user authentication yet
+        }),
+        getInvitedTeams: async (parent, args, context) => {
             try {
-                const team = await context.models.Team.create({ ...args, owner: context.user.id });
-                await context.models.Channel.create({ name: "General", teamId: team.id, public: true });
+                console.log("hello")
+                const allTeams = await context.models.sequelize.query('select * from teams join members on id = team_id where user_id = ?', {
+                    replacements: [context.user.id],
+                    model: context.models.Team,
+                })
+                console.log(allTeams);
                 return {
                     ok: true,
-                    team,
+                    teams: allTeams
                 }
             } catch (error) {
+                console.log(error)
+                return {
+                    ok: false,
+                    errors: formatErrors(error)
+                }
+            }
+        },
+    },
+    Mutation: {
+        createTeam: requiresAuth(async (parent, args, { models, user }) => {
+            // passing a a random user from context as we have not setup JWT and user authentication yet
+            try {
+                const response = await models.sequelize.transaction(async (t) => {
+                    const team = await models.Team.create({ ...args, owner: user.id }, { transaction: t });
+                    await models.Channel.create({ name: "General", teamId: team.id, public: true }, { transaction: t });
+                    return team
+                })
+
+                return {
+                    ok: true,
+                    team: response
+                }
+            } catch (error) {
+                console.log(error)
                 return {
                     ok: false,
                     errors: formatErrors(error)

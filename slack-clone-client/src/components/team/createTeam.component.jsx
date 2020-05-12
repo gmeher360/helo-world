@@ -65,7 +65,7 @@ const CreateTeam = () => {
         } else {
             console.log(errors)
             const err = {}
-            if (errors[0].path == 'auth') {
+            if (errors && errors[0].path == 'auth') {
                 alert(ERROR.AUTH_ERROR);
                 history.push('/login')
             }

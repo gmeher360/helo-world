@@ -36,20 +36,25 @@ function CreateChannelModal({ currentTeam, history, ...props }) {
                 if (!ok) {
                     return
                 }
-                // Read the data from our cache for this query.
-                const data = proxy.readQuery({ query: GET_ALL_CHANNELS_BY_TEAM_ID, variables: { teamId: currentTeam.id } });
-                // Write our data back to the cache with the new comment in it
-                proxy.writeQuery({
-                    query: GET_ALL_CHANNELS_BY_TEAM_ID,
-                    variables: { teamId: currentTeam.id },
-                    data: {
-                        ...data,
-                        getAllChannelsByTeamId: {
-                            ...data.getAllChannelsByTeamId,
-                            channels: [...data.getAllChannelsByTeamId.channels, channel]
+                try {
+                    // Read the data from our cache for this query.
+                    const data = proxy.readQuery({ query: GET_ALL_CHANNELS_BY_TEAM_ID, variables: { teamId: currentTeam.id } });
+                    // Write our data back to the cache with the new comment in it
+                    proxy.writeQuery({
+                        query: GET_ALL_CHANNELS_BY_TEAM_ID,
+                        variables: { teamId: currentTeam.id },
+                        data: {
+                            ...data,
+                            getAllChannelsByTeamId: {
+                                ...data.getAllChannelsByTeamId,
+                                channels: [...data.getAllChannelsByTeamId.channels, channel]
+                            }
                         }
-                    }
-                });
+                    });
+                } catch (error) {
+                    console.log(error)
+                }
+
             }
         })
         const { ok, errors, channel } = response.data.createChannel;

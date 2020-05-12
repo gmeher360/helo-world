@@ -29,5 +29,16 @@ export const GET_ALL_TEAMS = gql`
                 message
             }
         }
+        getInvitedTeams{
+            ok
+            teams{
+                id
+                name
+            }
+            errors{
+                path
+                message
+            }
+        }
     }
 `

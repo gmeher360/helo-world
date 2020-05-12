@@ -12,9 +12,8 @@ export default gql`
         errors: [Error]
         team:Team
     }
-    type getAllTeamsResponse{
+    type TeamsResponse{
         ok: Boolean!
-        channels:[Channel]
         errors:[Error]
         teams: [Team!]
     }
@@ -22,6 +21,7 @@ export default gql`
         createTeam(name: String!): createTeamResponse!
     }
     type Query{ 
-        getAllTeams : getAllTeamsResponse!
+        getAllTeams : TeamsResponse!
+        getInvitedTeams: TeamsResponse !
     }
 `
